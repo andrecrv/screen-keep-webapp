@@ -2,6 +2,9 @@ import React from 'react'
 
 const MovieModal = ({ movie:
     { title, overview, vote_average, popularity, poster_path, backdrop_path, genre_ids, release_date, original_language, adult }, handleModal }) => {
+
+    const formattedDate = new Date(release_date).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+
     return (
         <div className="movie-modal">
             <img src={poster_path ? `https://image.tmdb.org/t/p/w500/${poster_path}` : '/no-movie.png'} alt={title} />
@@ -41,7 +44,7 @@ const MovieModal = ({ movie:
 
                 <div className="mt-5 flex flex-row gap-10">
                     <p className="text-white">Release date</p>
-                    <p className="text-white">{release_date}</p>
+                    <p className="text-white">{formattedDate}</p>
                 </div>
             </div>
 
