@@ -4,6 +4,7 @@ import { useDebounce } from 'react-use'
 import Search from './components/Search'
 import Spinner from './components/Spinner'
 import MovieCard from './components/MovieCard';
+import MovieModal from './components/MovieModal';
 import { getTrendingMovies, updateSearchCount } from './appwrite';
 
 const API_BASE_URL = 'https://api.themoviedb.org/3';
@@ -26,8 +27,11 @@ const App = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
+  const [modal, setModal] = useState(false);
+  const [modalData, setModalData] = useState(null);
+
   const [trendingMovies, setTrendingMovies] = useState([]);
-  
+
   // Debounce the search term to prevent making too many API requests
   // by waiting for the user to stop typing for 500ms
   // usDebounce( function, delay_by_ms, dependency )
@@ -56,7 +60,7 @@ const App = () => {
         return;
       }
 
-      //console.log(data);
+      console.log(data);
       setMovieList(data.results || []);
 
       if (query && data.results.length > 0) {
@@ -88,9 +92,25 @@ const App = () => {
     loadTrendingMovies();
   }, [])
 
+  const handleModal = (movie) => {
+    if (movie === null) {
+      setModal(false);
+      setModalData(null);
+    } else {
+      console.log(movie.title + " clicked!");
+      setModal(true);
+      setModalData(movie);
+    }
+  }
 
   return (
     <main>
+      {modal && (
+        <div className="modal">
+          <MovieModal movie={modalData} handleModal={handleModal} />
+        </div>
+      )}
+
       <div className="pattern" />
 
       <div className="wrapper">
@@ -126,11 +146,13 @@ const App = () => {
           ) : (
             <ul>
               {movieList.map((movie) => (
-                <MovieCard key={movie.id} movie={movie} />
+                <MovieCard key={movie.id} movie={movie} handleModal={handleModal} />
               ))}
             </ul>
           )}
         </section>
+
+
       </div>
     </main>
   )
