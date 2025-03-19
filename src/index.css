@@ -25,7 +25,8 @@
     font-family: "DM Sans", serif;
     font-optical-sizing: auto;
     background: #030014;
-    overflow-x: hidden; /* prevent horizontal scroll action */
+    overflow-x: hidden;
+    /* prevent horizontal scroll action */
   }
 
   h1 {
@@ -107,7 +108,7 @@
   }
 
   .movie-card {
-    @apply bg-dark-100 p-5 rounded-2xl shadow-inner shadow-light-100/10;
+    @apply bg-dark-100 p-5 rounded-2xl shadow-inner shadow-light-100/10 cursor-pointer;
 
     & img {
       @apply rounded-lg h-auto w-full;
