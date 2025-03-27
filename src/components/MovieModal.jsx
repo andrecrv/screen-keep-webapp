@@ -1,9 +1,13 @@
 import React from 'react'
 
 const MovieModal = ({ movie:
-    { title, overview, vote_average, popularity, poster_path, backdrop_path, genre_ids, release_date, original_language, adult }, handleModal }) => {
+    { title, overview, vote_average, popularity, poster_path, backdrop_path, genre_ids, release_date, original_language, adult }, genres, handleModal }) => {
 
     const formattedDate = new Date(release_date).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+
+    const filteredGenres = genres.filter(genre => genre_ids.includes(genre.id))
+
+    //console.log("Filtered genres: ", filteredGenres);
 
     return (
         <div className="movie-modal">
@@ -37,19 +41,33 @@ const MovieModal = ({ movie:
                     <p className="text-white">{adult ? "TV-MA" : "PG-13"}</p>
                 </div>
 
-                <div className="mt-5 flex flex-row gap-16">
-                    <p className="text-white">Overview</p>
-                    <p className="text-white">{overview || "N/A"}</p>
+                <div className="mt-7 flex items-center gap-20">
+                    <p className="text-white font-semibold">Genres</p>
+                    <div className="flex gap-4">
+                        {filteredGenres.map(genre => (
+                            <p className="text-gray-700 font-medium bg-white rounded-lg py-1 px-2">{genre.name}</p>
+                        ))}
+                    </div>
                 </div>
 
-                <div className="mt-5 flex flex-row gap-10">
-                    <p className="text-white">Release date</p>
-                    <p className="text-white">{formattedDate}</p>
+                <div className="mt-8 flex flex-row gap-16">
+                    <p className="text-white font-semibold">Overview</p>
+                    <p className="text-white font-light">{overview || "N/A"}</p>
+                </div>
+
+                <div className="mt-8 flex flex-row gap-10">
+                    <p className="text-white font-semibold">Release date</p>
+                    <p className="text-white font-light">{formattedDate}</p>
                 </div>
             </div>
 
             <div className="flex justify-end items-start">
-                <button name="close-button" className="text-white bg-red-500 rounded-lg px-3 py-1 cursor-pointer" onClick={() => handleModal(null)}>x</button>
+                <button
+                    name="close-button"
+                    className="text-white bg-red-500 rounded-lg px-3 py-1 cursor-pointer"
+                    onClick={() => handleModal(null)}>
+                    x
+                </button>
             </div>
         </div>
     )

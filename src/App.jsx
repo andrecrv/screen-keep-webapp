@@ -24,6 +24,7 @@ const App = () => {
   const [searchTerm, setSearchTerm] = useState('');
 
   const [movieList, setMovieList] = useState([]);
+  const [genreList, setGenreList] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
@@ -36,6 +37,38 @@ const App = () => {
   // by waiting for the user to stop typing for 500ms
   // usDebounce( function, delay_by_ms, dependency )
   useDebounce(() => setDebouncedSearchedTerm(searchTerm), 500, [searchTerm])
+
+  const fetchGenres = async () => {
+    setIsLoading(true);
+    setErrorMessage('');
+
+    try {
+      const endpoint = `${API_BASE_URL}/genre/movie/list`;
+
+      const response = await fetch(endpoint, API_OPTIONS);
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch genres');
+      }
+
+      const data = await response.json();
+
+      if (data.Response === 'False') {
+        setErrorMessage(data.Error || 'Failed to fetch genres');
+        setGenreList([]);
+        return;
+      }
+
+      console.log(data);
+      setGenreList(data.genres || []);
+
+    } catch (error) {
+      console.error(`Error fetching genres: ${error}`);
+      setErrorMessage('Error fetching genres. Please try again later.');
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   const fetchMovies = async (query = '') => {
     setIsLoading(true);
@@ -85,12 +118,20 @@ const App = () => {
   }
 
   useEffect(() => {
+    fetchGenres();
+  }, []);
+
+  useEffect(() => {
+    console.log("Updated genreList: ", genreList);
+  }, [genreList]);
+
+  useEffect(() => {
     fetchMovies(debouncedSearchedTerm);
   }, [debouncedSearchedTerm]);
 
   useEffect(() => {
     loadTrendingMovies();
-  }, [])
+  }, []);
 
   const handleModal = (movie) => {
     if (movie === null) {
@@ -107,7 +148,7 @@ const App = () => {
     <main>
       {modal && (
         <div className="modal">
-          <MovieModal movie={modalData} handleModal={handleModal} />
+          <MovieModal movie={modalData} genres={genreList} handleModal={handleModal} />
         </div>
       )}
 
