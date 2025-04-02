@@ -24,7 +24,7 @@ const MovieModal = ({ movie:
                     <div className="rating">
                         <img src="star.svg" alt="Star Icon" />
                         <p>{vote_average
-                            ? `${vote_average.toFixed(1)}/10 (${popularity})`
+                            ? `${vote_average.toFixed(1)}/10 (${popularity.toFixed(0)}K)`
                             : 'N/A'
                         }</p>
                     </div>
@@ -44,7 +44,7 @@ const MovieModal = ({ movie:
                     <p className="text-white font-semibold">Genres</p>
                     <div className="flex gap-4">
                         {filteredGenres.map(genre => (
-                            <p key={genre.id} className="text-gray-700 font-medium bg-white rounded-lg py-1 px-2">{genre.name}</p>
+                            <p key={genre.id} className="text-white font-medium bg-indigo-300/10 rounded-lg py-1 px-4">{genre.name}</p>
                         ))}
                     </div>
                 </div>
