@@ -40,12 +40,11 @@ const MovieModal = ({ movie:
                     <span>•</span>
                     <p className="text-white">{adult ? "TV-MA" : "PG-13"}</p>
                 </div>
-
                 <div className="mt-7 flex items-center gap-20">
                     <p className="text-white font-semibold">Genres</p>
                     <div className="flex gap-4">
                         {filteredGenres.map(genre => (
-                            <p className="text-gray-700 font-medium bg-white rounded-lg py-1 px-2">{genre.name}</p>
+                            <p key={genre.id} className="text-gray-700 font-medium bg-white rounded-lg py-1 px-2">{genre.name}</p>
                         ))}
                     </div>
                 </div>
