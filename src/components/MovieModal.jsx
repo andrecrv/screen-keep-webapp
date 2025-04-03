@@ -15,10 +15,8 @@ const MovieModal = ({ movie:
 
             {/* <img src={backdrop_path ? `https://image.tmdb.org/t/p/w500/${backdrop_path}` : '/no-movie.png'} alt={title} style={{ width: "100%", height: "auto", maxHeight: "300px", objectFit: "contain"}} /> */}
 
-            <div className="mt-4">
-                <div>
-                    <h3>{title}</h3>
-                </div>
+            <div className="mt-1">
+                <h3>{title}</h3>
 
                 <div className="content">
                     <div className="rating">
@@ -40,32 +38,34 @@ const MovieModal = ({ movie:
                     <span>•</span>
                     <p className="text-white">{adult ? "TV-MA" : "PG-13"}</p>
                 </div>
-                <div className="mt-7 flex items-center gap-20">
-                    <p className="text-white font-semibold">Genres</p>
-                    <div className="flex gap-4">
-                        {filteredGenres.map(genre => (
-                            <p key={genre.id} className="text-white font-medium bg-indigo-300/10 rounded-lg py-1 px-4">{genre.name}</p>
-                        ))}
+
+                <div className="details">
+                    <div className="genres">
+                        <p className="label">Genres</p>
+                        <div className="flex gap-4">
+                            {filteredGenres.map(genre => (
+                                <p key={genre.id} className="category">{genre.name}</p>
+                            ))}
+                        </div>
                     </div>
-                </div>
 
-                <div className="mt-8 flex flex-row gap-16">
-                    <p className="text-white font-semibold">Overview</p>
-                    <p className="text-white font-light">{overview || "N/A"}</p>
-                </div>
+                    <div className="overview">
+                        <p className="label">Overview</p>
+                        <p className="description">{overview || "N/A"}</p>
+                    </div>
 
-                <div className="mt-8 flex flex-row gap-10">
-                    <p className="text-white font-semibold">Release date</p>
-                    <p className="text-white font-light">{formattedDate}</p>
+                    <div className="release-date">
+                        <p className="label">Release date</p>
+                        <p className="description">{formattedDate}</p>
+                    </div>
                 </div>
             </div>
 
-            <div className="flex justify-end items-start">
+            <div className="close-button">
                 <button
                     name="close-button"
-                    className="text-white bg-red-500 rounded-lg px-3 py-1 cursor-pointer"
                     onClick={() => handleModal(null)}>
-                    x
+                    🗙
                 </button>
             </div>
         </div>
